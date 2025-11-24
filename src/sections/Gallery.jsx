@@ -42,23 +42,12 @@ export default function Gallery() {
       id="gallery"
       className="pt-32 pb-20 px-6 relative overflow-hidden flex flex-col items-center justify-center"
     >
+      {/* POPUP */}
       <ContactPopup isOpen={showPopup} onClose={() => setShowPopup(false)} />
 
-      {/* MOBILE — LIGHT VERSION OF BACKGROUND */}
-      {!isMobile && (
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 left-20 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl" />
-        </div>
-      )}
+      {/* ⛔ НЕТ локального фона — фон только из AnimatedBackground */}
 
-      {isMobile && (
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-10 right-10 w-60 h-60 bg-blue-300/15 rounded-full" />
-          <div className="absolute bottom-10 left-10 w-52 h-52 bg-cyan-300/15 rounded-full" />
-        </div>
-      )}
-
+      {/* HEADER */}
       <motion.div
         className="text-center mb-20 w-full"
         initial={isMobile ? false : { opacity: 0, y: 40 }}
@@ -74,6 +63,7 @@ export default function Gallery() {
         </p>
       </motion.div>
 
+      {/* GRID */}
       <div
         className={`grid ${
           isMobile ? "grid-cols-1" : "sm:grid-cols-2 lg:grid-cols-4"
@@ -88,8 +78,8 @@ export default function Gallery() {
               ${
                 isMobile
                   ? "shadow-md bg-white/80"
-                  : "backdrop-blur-xl shadow-xl bg-white/80"
-              } 
+                  : "bg-white/80 backdrop-blur-xl shadow-xl"
+              }
               hover:shadow-2xl hover:border-[#3B82F6] 
               transition-all cursor-pointer
             `}
@@ -99,7 +89,7 @@ export default function Gallery() {
             transition={{ delay: isMobile ? 0 : index * 0.1, duration: 0.6 }}
             whileHover={isMobile ? {} : { y: -8, scale: 1.02 }}
           >
-            {/* CLICKABLE LINK */}
+            {/* Кликабельная ссылка поверх всей карточки */}
             <a
               href={item.link}
               target="_blank"
@@ -108,7 +98,7 @@ export default function Gallery() {
               aria-label={`View ${item.title} in 360°`}
             />
 
-            {/* IMAGE */}
+            {/* Картинка */}
             <div
               className={`absolute inset-0 bg-cover bg-center transition-all duration-700 ${
                 isMobile ? "" : "group-hover:scale-110"
@@ -116,12 +106,12 @@ export default function Gallery() {
               style={{ backgroundImage: `url(${item.img})` }}
             />
 
-            {/* DESKTOP — gradient overlay */}
+            {/* Десктопный градиент поверх картинки */}
             {!isMobile && (
               <div className="absolute inset-0 bg-gradient-to-t from-[#3B82F6]/80 via-[#3B82F6]/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
             )}
 
-            {/* CONTENT OVERLAY */}
+            {/* Контент поверх */}
             <div
               className={`
                 absolute inset-0 flex flex-col items-center justify-center p-6 
@@ -129,7 +119,7 @@ export default function Gallery() {
                   isMobile
                     ? "bg-black/40 opacity-100"
                     : "opacity-0 group-hover:opacity-100"
-                } 
+                }
                 transition-all duration-500 z-10
               `}
             >
@@ -147,6 +137,7 @@ export default function Gallery() {
         ))}
       </div>
 
+      {/* CTA НИЖЕ */}
       <motion.div
         className="mt-16 text-center"
         initial={isMobile ? false : { opacity: 0, y: 20 }}
@@ -157,7 +148,8 @@ export default function Gallery() {
 
         <motion.button
           className="px-8 py-4 bg-gradient-to-r from-[#3B82F6] to-[#38BDF8] rounded-full text-white font-bold text-lg shadow-xl hover:shadow-2xl transition-all"
-          whileHover={{ scale: 1.05 }}
+          whileHover={isMobile ? {} : { scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={() => setShowPopup(true)}
         >
           {t("gallery.contactBtn")}

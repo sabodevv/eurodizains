@@ -44,25 +44,8 @@ export default function Hero({ setCurrentPage }) {
           overflow-hidden
         "
       >
-        {/* Background */}
-        <div className="absolute inset-0 -z-10">
-          <div
-            className={`absolute top-20 left-10 w-96 h-96 bg-blue-500/10 rounded-full ${
-              !isMobile ? "blur-3xl" : ""
-            }`}
-          ></div>
-          <div
-            className={`absolute bottom-20 right-20 w-[500px] h-[500px] bg-cyan-500/10 rounded-full ${
-              !isMobile ? "blur-3xl" : ""
-            }`}
-          ></div>
-          <div
-            className={`absolute top-1/2 left-1/2 
-              -translate-x-1/2 -translate-y-1/2 
-              w-[600px] h-[600px] bg-purple-500/5 rounded-full 
-              ${!isMobile ? "blur-3xl" : ""}`}
-          ></div>
-        </div>
+        {/* ====== НЕТ НИКАКИХ КРУГОВ, ЧИСТОЕ ПОЛЕ ====== */}
+        <div className="absolute inset-0 -z-10"></div>
 
         {/* LEFT CONTENT */}
         <motion.div
@@ -126,7 +109,7 @@ export default function Hero({ setCurrentPage }) {
             </motion.button>
           </motion.div>
 
-          {/* Stats */}
+          {/* STATS */}
           <motion.div
             initial={isMobile ? false : { opacity: 0, y: 20 }}
             animate={isMobile ? {} : { opacity: 1, y: 0 }}
@@ -154,7 +137,7 @@ export default function Hero({ setCurrentPage }) {
           </motion.div>
         </motion.div>
 
-        {/* RIGHT SIDE (CARD) */}
+        {/* RIGHT SIDE: CARD */}
         <motion.div
           className="relative w-full lg:w-[550px] mt-16 lg:mt-0"
           initial={isMobile ? false : { opacity: 0, x: 50 }}
@@ -162,7 +145,6 @@ export default function Hero({ setCurrentPage }) {
           transition={{ duration: 0.8, delay: 0.3 }}
         >
           <div className="relative">
-            {/* MAIN CARD */}
             <motion.div
               className={`relative w-full ${
                 isMobile ? "bg-white/95" : "bg-white/80 backdrop-blur-xl"
@@ -182,8 +164,7 @@ export default function Hero({ setCurrentPage }) {
                     isMobile
                       ? "bg-white"
                       : "bg-gradient-to-br from-white to-blue-50/50 backdrop-blur-sm"
-                  } 
-                    rounded-2xl p-6 shadow-lg mb-6 border border-blue-100/50`}
+                  } rounded-2xl p-6 shadow-lg mb-6 border border-blue-100/50`}
                 >
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
@@ -268,11 +249,10 @@ export default function Hero({ setCurrentPage }) {
                 </motion.a>
               </div>
 
-              {/* bottom shine */}
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#3B82F6] to-transparent"></div>
             </motion.div>
 
-            {/* FLOATING DECOR (desktop only) */}
+            {/* FLOATING DECOR */}
             <motion.div
               className={`absolute -top-6 -right-6 w-20 h-20 ${
                 isMobile

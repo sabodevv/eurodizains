@@ -34,19 +34,7 @@ export default function Services() {
       id="services"
       className="min-h-screen pt-32 pb-20 px-6 relative overflow-hidden flex flex-col items-center justify-center"
     >
-      {/* Background circles (no blur on mobile) */}
-      <div className="absolute inset-0 -z-10">
-        <div
-          className={`absolute top-40 left-20 w-96 h-96 bg-blue-500/10 rounded-full ${
-            !isMobile ? "blur-3xl" : ""
-          }`}
-        ></div>
-        <div
-          className={`absolute bottom-40 right-20 w-80 h-80 bg-cyan-500/10 rounded-full ${
-            !isMobile ? "blur-3xl" : ""
-          }`}
-        ></div>
-      </div>
+      {/* !!! Убрали circles/background — используем AnimatedBackground */}
 
       {/* Header */}
       <motion.div
@@ -55,16 +43,9 @@ export default function Services() {
         whileInView={isMobile ? {} : { opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
-        <motion.div
-          initial={isMobile ? false : { scale: 0.9 }}
-          whileInView={isMobile ? {} : { scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="text-5xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-[#3B82F6] via-[#38BDF8] to-[#60A5FA] bg-clip-text text-transparent drop-shadow-sm">
-            {t("services.title")}
-          </h2>
-        </motion.div>
+        <h2 className="text-5xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-[#3B82F6] via-[#38BDF8] to-[#60A5FA] bg-clip-text text-transparent">
+          {t("services.title")}
+        </h2>
 
         <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed font-medium">
           {t("services.subtitle")}
@@ -81,9 +62,9 @@ export default function Services() {
               ${
                 isMobile
                   ? "bg-white/95 border border-blue-100 shadow-lg"
-                  : "backdrop-blur-xl bg-white/80 border-2 shadow-xl"
+                  : "bg-white/80 backdrop-blur-xl border-2 border-blue-100 shadow-xl"
               }
-              transition-all
+              transition-all duration-500 
               ${
                 service.popular && !isMobile
                   ? "border-[#3B82F6] shadow-2xl shadow-blue-500/20 scale-105"
@@ -101,7 +82,7 @@ export default function Services() {
                 : { y: -10, scale: service.popular ? 1.05 : 1.02 }
             }
           >
-            {/* Badge */}
+            {/* Popular badge */}
             {service.popular && (
               <motion.div
                 className="absolute -top-5 left-1/2 -translate-x-1/2 px-6 py-2 bg-gradient-to-r from-[#3B82F6] to-[#38BDF8] rounded-full text-white text-sm font-bold shadow-lg"
@@ -114,15 +95,11 @@ export default function Services() {
             )}
 
             {/* Glow */}
-            <div
-              className={`absolute inset-0 bg-gradient-to-br from-[#3B82F6]/0 to-[#3B82F6]/0 ${
-                isMobile
-                  ? ""
-                  : "group-hover:from-[#3B82F6]/10 group-hover:to-[#38BDF8]/5"
-              } transition-all duration-500 rounded-3xl`}
-            ></div>
+            {!isMobile && (
+              <div className="absolute inset-0 bg-gradient-to-br from-transparent to-transparent group-hover:from-[#3B82F6]/10 group-hover:to-[#38BDF8]/5 transition-all duration-500 rounded-3xl"></div>
+            )}
 
-            {/* Corner decoration */}
+            {/* Сorner decoration */}
             {!isMobile && (
               <div className="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-[#3B82F6]/20 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             )}
@@ -130,7 +107,7 @@ export default function Services() {
             <div className="relative z-10">
               {/* Icon */}
               <motion.div
-                className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center mb-6 shadow-lg transition-all duration-500`}
+                className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center mb-6 shadow-lg`}
                 whileHover={
                   isMobile
                     ? undefined
@@ -170,7 +147,7 @@ export default function Services() {
                 {service.note}
               </p>
 
-              {/* CTA Button */}
+              {/* CTA */}
               <motion.button
                 className="w-full py-4 rounded-full text-white font-bold bg-gradient-to-r from-[#3B82F6] to-[#38BDF8] shadow-lg hover:shadow-xl transition-all relative overflow-hidden group/btn"
                 whileHover={isMobile ? {} : { scale: 1.03 }}

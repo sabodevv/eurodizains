@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 
 export default function Benefits() {
   const { t } = useTranslation();
-
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   const benefits = [
@@ -32,22 +31,15 @@ export default function Benefits() {
 
   return (
     <section
-      className="min-h-screen pt-32 pb-20 px-6 relative overflow-hidden flex flex-col items-center justify-center"
       id="benefits"
+      className="
+        relative min-h-screen 
+        pt-32 pb-20 px-6 
+        overflow-hidden 
+        flex flex-col items-center justify-center
+      "
     >
-      {/* Decorative background with disabled blur on mobile */}
-      <div className="absolute inset-0 -z-10">
-        <div
-          className={`absolute top-20 left-10 w-72 h-72 bg-blue-500/10 rounded-full ${
-            isMobile ? "" : "blur-3xl"
-          }`}
-        ></div>
-        <div
-          className={`absolute bottom-20 right-10 w-96 h-96 bg-purple-500/10 rounded-full ${
-            isMobile ? "" : "blur-3xl"
-          }`}
-        ></div>
-      </div>
+      {/* УБРАН ФОН — используем тот же AnimatedBackground */}
 
       <motion.div
         className="text-center mb-20 w-full"
@@ -55,7 +47,7 @@ export default function Benefits() {
         whileInView={isMobile ? undefined : { opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
-        <h2 className="text-5xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-[#3B82F6] via-[#60A5FA] to-[#3B82F6] bg-clip-text text-transparent drop-shadow-sm">
+        <h2 className="text-5xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-[#3B82F6] via-[#60A5FA] to-[#3B82F6] bg-clip-text text-transparent">
           {t("benefits.title")}
         </h2>
 
@@ -68,11 +60,15 @@ export default function Benefits() {
         {benefits.map((benefit, index) => (
           <motion.div
             key={index}
-            className={`group relative p-10 ${
-              isMobile
-                ? "bg-white/90 rounded-3xl border border-blue-100 shadow-lg"
-                : "bg-white/80 backdrop-blur-xl border-2 border-blue-100 shadow-xl"
-            } transition-all duration-500 cursor-pointer overflow-hidden`}
+            className={`
+              group relative p-10 rounded-3xl
+              ${
+                isMobile
+                  ? "bg-white/90 border border-blue-100 shadow-lg"
+                  : "bg-white/80 backdrop-blur-xl border-2 border-blue-100 shadow-xl"
+              }
+              transition-all duration-500 cursor-pointer overflow-hidden
+            `}
             initial={isMobile ? false : { opacity: 0, y: 40 }}
             whileInView={isMobile ? undefined : { opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -80,7 +76,6 @@ export default function Benefits() {
             whileHover={isMobile ? undefined : { y: -12, scale: 1.02 }}
           >
             <div className="relative z-10">
-              {/* icon animation disabled on mobile */}
               <motion.div
                 className="w-20 h-20 mb-6 bg-gradient-to-br from-[#3B82F6]/20 to-[#60A5FA]/10 rounded-2xl flex items-center justify-center shadow-lg"
                 whileHover={

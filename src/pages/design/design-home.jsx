@@ -13,7 +13,7 @@ export default function DesignHome() {
 
   const paragraphs = t("design.home.paragraphs", { returnObjects: true });
   const listItems = t("design.home.list", { returnObjects: true });
-  const image = "/public/design/home/1.jpg";
+  const image = "/public/design/home/imagehome.jpg";
 
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
