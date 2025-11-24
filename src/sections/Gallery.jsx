@@ -1,0 +1,128 @@
+import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import { ExternalLink, Eye } from "lucide-react";
+import { useState } from "react";
+import ContactPopup from "../components/ContactPopup";
+
+export default function Gallery() {
+  const { t } = useTranslation();
+
+  // === POPUP CONTROL ===
+  const [showPopup, setShowPopup] = useState(false);
+
+  const items = [
+    {
+      id: 1,
+      img: "/gallery/1.jpg",
+      link: "https://www.360cities.net/image/shadow-adjacency-to-the-wall/vr",
+      title: t("gallery.item1"),
+    },
+    {
+      id: 2,
+      img: "/gallery/2.jpg",
+      link: "https://www.360cities.net/image/stretch-ceiling/vr",
+      title: t("gallery.item2"),
+    },
+    {
+      id: 3,
+      img: "/gallery/3.jpg",
+      link: "https://www.360cities.net/image/gapless-ceiling/vr",
+      title: t("gallery.item3"),
+    },
+    {
+      id: 4,
+      img: "/gallery/4.jpg",
+      link: "https://www.360cities.net/image/soaring-ceiling-1/vr",
+      title: t("gallery.item4"),
+    },
+  ];
+
+  return (
+    <section
+      id="gallery"
+      className="pt-32 pb-20 px-6 relative overflow-hidden flex flex-col items-center justify-center"
+    >
+      {/* Popup */}
+      <ContactPopup isOpen={showPopup} onClose={() => setShowPopup(false)} />
+
+      {/* Decorative background */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 left-20 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl" />
+      </div>
+
+      <motion.div
+        className="text-center mb-20 w-full"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+      >
+        <h2 className="text-5xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-[#3B82F6] via-[#38BDF8] to-[#60A5FA] bg-clip-text text-transparent drop-shadow-sm">
+          {t("gallery.title")}
+        </h2>
+
+        <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed font-medium">
+          {t("gallery.subtitle")}
+        </p>
+      </motion.div>
+
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl w-full">
+        {items.map((item, index) => (
+          <motion.div
+            key={item.id}
+            className="group relative w-full aspect-square rounded-3xl overflow-hidden border-2 border-blue-100 bg-white/80 backdrop-blur-xl shadow-xl hover:shadow-2xl hover:border-[#3B82F6] transition-all cursor-pointer"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.1, duration: 0.6 }}
+            whileHover={{ y: -8, scale: 1.02 }}
+          >
+            <a
+              href={item.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute inset-0 z-20"
+              aria-label={`View ${item.title} in 360°`}
+            />
+
+            <div
+              className="absolute inset-0 bg-cover bg-center transition-all duration-700 group-hover:scale-110"
+              style={{ backgroundImage: `url(${item.img})` }}
+            />
+
+            <div className="absolute inset-0 bg-gradient-to-t from-[#3B82F6]/80 via-[#3B82F6]/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
+
+            <div className="absolute inset-0 flex flex-col items-center justify-center p-6 opacity-0 group-hover:opacity-100 transition-all duration-500 z-10">
+              <Eye className="w-12 h-12 text-white mb-3" />
+              <h3 className="text-xl font-bold text-white mb-2">
+                {item.title}
+              </h3>
+              <div className="flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-semibold">
+                {t("gallery.view360")}
+                <ExternalLink className="w-4 h-4" />
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      <motion.div
+        className="mt-16 text-center"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+      >
+        <p className="text-gray-600 font-medium mb-4">{t("gallery.cta")}</p>
+
+        {/* 🔥 КНОПКА ОТКРЫВАЕТ POPUP */}
+        <motion.button
+          className="px-8 py-4 bg-gradient-to-r from-[#3B82F6] to-[#38BDF8] rounded-full text-white font-bold text-lg shadow-xl hover:shadow-2xl transition-all"
+          whileHover={{ scale: 1.05 }}
+          onClick={() => setShowPopup(true)}
+        >
+          {t("gallery.contactBtn")}
+        </motion.button>
+      </motion.div>
+    </section>
+  );
+}
