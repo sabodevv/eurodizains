@@ -1,4 +1,6 @@
-import { Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import i18n from "./i18n";
 
 // Components
 import AnimatedBackground from "./components/AnimatedBackground.jsx";
@@ -38,11 +40,9 @@ import Visualization3D from "./pages/design/visualization-3d.jsx";
 import AuthorSupervision from "./pages/design/author-supervision.jsx";
 import DesignGuarantees from "./pages/design/design-guarantees.jsx";
 import DesignDiscounts from "./pages/design/design-discounts.jsx";
-
-// 🔹 ВАШ НОВЫЙ ФАЙЛ
 import Composition from "./pages/design/composition.jsx";
 
-// Design Clients
+// Design clients
 import LivingRoomDesign from "./pages/design/living-room-design.jsx";
 import HouseDesign from "./pages/design/house-design.jsx";
 import Decoration from "./pages/design/decoration.jsx";
@@ -52,13 +52,47 @@ import RestaurantDesign from "./pages/design/restaurant-design.jsx";
 import ClubDesign from "./pages/design/club-design.jsx";
 
 export default function App() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // LANGUAGE HANDLER FIXED
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    let lang = params.get("language");
+
+    const allowed = ["lv", "ru", "en"];
+
+    // Default language = LV
+    if (!lang) {
+      lang = "lv";
+      params.set("language", lang);
+      navigate(`${location.pathname}?${params.toString()}`, { replace: true });
+      return;
+    }
+
+    // Wrong language → force LV
+    if (!allowed.includes(lang)) {
+      lang = "lv";
+      params.set("language", lang);
+      navigate(`${location.pathname}?${params.toString()}`, { replace: true });
+      return;
+    }
+
+    // Apply language
+    if (i18n.language !== lang) {
+      i18n.changeLanguage(lang);
+    }
+  }, [location]);
+
   return (
     <>
       <AnimatedBackground />
       <Header />
 
       <Routes>
-        {/* Главная */}
+        {/* ------------------------------------ */}
+        {/* MAIN PAGE */}
+        {/* ------------------------------------ */}
         <Route
           path="/"
           element={
@@ -72,45 +106,253 @@ export default function App() {
           }
         />
 
-        {/* Repairs */}
-        <Route path="/repairs" element={<RepairsHome />} />
-        <Route path="/repairs/standard" element={<Standard />} />
-        <Route path="/repairs/premium" element={<Premium />} />
-        <Route path="/repairs/vip" element={<VIP />} />
-        <Route path="/repairs/apartments" element={<Apartments />} />
-        <Route path="/repairs/houses" element={<Houses />} />
-        <Route path="/repairs/offices" element={<Offices />} />
-        <Route path="/repairs/ceilings" element={<Ceilings />} />
-        <Route path="/repairs/floors" element={<Floors />} />
-        <Route path="/repairs/plumbing" element={<Plumbing />} />
-        <Route path="/repairs/walls" element={<Walls />} />
-        <Route path="/repairs/electrics" element={<Electrics />} />
-        <Route path="/repairs/openings" element={<Openings />} />
-        <Route path="/repairs/demolition" element={<Demolition />} />
-        <Route path="/repairs/finishing" element={<Finishing />} />
+        {/* ------------------------------------ */}
+        {/* REPAIRS MAIN */}
+        {/* ------------------------------------ */}
+        <Route path="/remonts-un-apdare" element={<RepairsHome />} />
+        <Route path="/remont-i-otdelka" element={<RepairsHome />} />
+        <Route path="/renovation-and-finishing" element={<RepairsHome />} />
 
-        {/* Design */}
-        <Route path="/design" element={<DesignHome />} />
-        <Route path="/design/project-content" element={<ProjectContent />} />
-        <Route path="/design/standard" element={<ProjectStandard />} />
-        <Route path="/design/premium" element={<ProjectPremium />} />
-        <Route path="/design/vip" element={<ProjectVip />} />
-        <Route path="/design/3d-visual" element={<Visualization3D />} />
-        <Route path="/design/supervision" element={<AuthorSupervision />} />
-        <Route path="/design/warranty" element={<DesignGuarantees />} />
-        <Route path="/design/discounts" element={<DesignDiscounts />} />
+        {/* ------------------------------------ */}
+        {/* REPAIRS → CATEGORIES */}
+        {/* ------------------------------------ */}
+        <Route path="/standarta-remonts" element={<Standard />} />
+        <Route path="/standart-remont" element={<Standard />} />
+        <Route path="/standard-renovation" element={<Standard />} />
 
-        {/* 🔹 НОВЫЙ РОУТ ДЛЯ composition.jsx */}
-        <Route path="/design/composition" element={<Composition />} />
+        <Route path="/premium-klases-remonts" element={<Premium />} />
+        <Route path="/premium-remont" element={<Premium />} />
+        <Route path="/premium-renovation" element={<Premium />} />
 
-        {/* Design client categories */}
-        <Route path="/design/apartments" element={<LivingRoomDesign />} />
-        <Route path="/design/houses" element={<HouseDesign />} />
-        <Route path="/design/decor" element={<Decoration />} />
-        <Route path="/design/interiors" element={<InteriorDesign />} />
-        <Route path="/design/offices" element={<OfficeDesign />} />
-        <Route path="/design/restaurants" element={<RestaurantDesign />} />
-        <Route path="/design/nightclubs" element={<ClubDesign />} />
+        <Route path="/vip-remonts" element={<VIP />} />
+        <Route path="/vip-remont" element={<VIP />} />
+        <Route path="/vip-renovation" element={<VIP />} />
+
+        {/* ------------------------------------ */}
+        {/* REPAIRS → CLIENTS */}
+        {/* ------------------------------------ */}
+        <Route path="/dzivokla-remonts-riga" element={<Apartments />} />
+        <Route path="/remont-kvartir-riga" element={<Apartments />} />
+        <Route path="/apartment-renovation" element={<Apartments />} />
+
+        <Route path="/privatmaju-remonts" element={<Houses />} />
+        <Route path="/remont-kottedzhey" element={<Houses />} />
+        <Route path="/house-renovation" element={<Houses />} />
+
+        <Route path="/biroju-remonts" element={<Offices />} />
+        <Route path="/remont-ofisov" element={<Offices />} />
+        <Route path="/office-renovation" element={<Offices />} />
+
+        {/* ------------------------------------ */}
+        {/* REPAIRS → TECHNOLOGIES */}
+        {/* ------------------------------------ */}
+        <Route
+          path="/griestu-apdare-riga-cena-no-eurodizains"
+          element={<Ceilings />}
+        />
+        <Route
+          path="/otdelka-potolkov-v-rige-cena-ot-eurodizains"
+          element={<Ceilings />}
+        />
+        <Route
+          path="/ceiling-finishing-riga-price-from-eurodizains"
+          element={<Ceilings />}
+        />
+
+        <Route path="/gridu-remonts-riga-eurodizains" element={<Floors />} />
+        <Route path="/remont-polov-v-rige-eurodizains" element={<Floors />} />
+        <Route path="/floor-renovation-riga-eurodizains" element={<Floors />} />
+
+        <Route
+          path="/santehniskie-darbi-santehniskie-pakalpojumi-riga"
+          element={<Plumbing />}
+        />
+        <Route
+          path="/santehnicheskie-raboty-santehnicheskie-uslugi-v-rige"
+          element={<Plumbing />}
+        />
+        <Route
+          path="/plumbing-services-and-plumbing-works-riga"
+          element={<Plumbing />}
+        />
+
+        <Route
+          path="/sienu-apdare-riga-cena-no-eurodizains"
+          element={<Walls />}
+        />
+        <Route
+          path="/otdelka-sten-v-rige-cena-от-eurodizains"
+          element={<Walls />}
+        />
+        <Route
+          path="/wall-finishing-riga-price-from-eurodizains"
+          element={<Walls />}
+        />
+
+        <Route path="/elektromontazas-darbi-riga" element={<Electrics />} />
+        <Route
+          path="/elektromontazhnye-raboty-v-rige"
+          element={<Electrics />}
+        />
+        <Route
+          path="/electrical-installation-works-riga"
+          element={<Electrics />}
+        />
+
+        <Route path="/ailu-ierikosana" element={<Openings />} />
+        <Route path="/ustroystvo-proemov" element={<Openings />} />
+        <Route path="/doorway-installation-riga" element={<Openings />} />
+
+        <Route
+          path="/demontazas-darbi-cenas-no-eurodizains"
+          element={<Demolition />}
+        />
+        <Route
+          path="/demontazhnye-raboty-rascenki-ot-eurodizains"
+          element={<Demolition />}
+        />
+        <Route
+          path="/demolition-works-prices-from-eurodizains"
+          element={<Demolition />}
+        />
+
+        <Route
+          path="/apdares-darbi-cenas-riga-dzivoklu-un-maju-iekseja-apdare"
+          element={<Finishing />}
+        />
+        <Route
+          path="/otdelochnye-raboty-ceny-v-rige-vnutrennyaya-otdelka-kvartir-i-doma"
+          element={<Finishing />}
+        />
+        <Route
+          path="/finishing-works-riga-interior-finishing-for-homes-and-flats"
+          element={<Finishing />}
+        />
+
+        {/* ------------------------------------ */}
+        {/* DESIGN MAIN */}
+        {/* ------------------------------------ */}
+        <Route path="/interjera-dizains-riga" element={<DesignHome />} />
+        <Route path="/dizayn-interera-v-rige" element={<DesignHome />} />
+        <Route path="/interior-design-riga" element={<DesignHome />} />
+
+        {/* ------------------------------------ */}
+        {/* DESIGN PROJECT PAGES */}
+        {/* ------------------------------------ */}
+        <Route path="/dizaina-projekta-sastavs" element={<ProjectContent />} />
+        <Route path="/sostav-dizayn-proekta" element={<ProjectContent />} />
+        <Route
+          path="/interior-design-project-content"
+          element={<ProjectContent />}
+        />
+
+        <Route
+          path="/dizaina-projekts-standard"
+          element={<ProjectStandard />}
+        />
+        <Route
+          path="/dizayn-proekt-standartnyy"
+          element={<ProjectStandard />}
+        />
+        <Route
+          path="/interior-design-project-standard"
+          element={<ProjectStandard />}
+        />
+
+        <Route path="/dizaina-projekts-premium" element={<ProjectPremium />} />
+        <Route path="/dizayn-proekt-premium" element={<ProjectPremium />} />
+        <Route
+          path="/interior-design-project-premium"
+          element={<ProjectPremium />}
+        />
+
+        <Route path="/dizaina-projekts-vip" element={<ProjectVip />} />
+        <Route path="/dizayn-proekt-vip" element={<ProjectVip />} />
+        <Route path="/interior-design-project-vip" element={<ProjectVip />} />
+
+        <Route path="/3d-vizualizacija" element={<Visualization3D />} />
+        <Route path="/3d-vizualizaciya" element={<Visualization3D />} />
+        <Route path="/3d-visualization" element={<Visualization3D />} />
+
+        <Route
+          path="/remonta-autoruzraudziba"
+          element={<AuthorSupervision />}
+        />
+        <Route
+          path="/avtorskiy-nadzor-nad-remontom"
+          element={<AuthorSupervision />}
+        />
+        <Route
+          path="/interior-design-author-supervision"
+          element={<AuthorSupervision />}
+        />
+
+        <Route path="/garantija" element={<DesignGuarantees />} />
+        <Route path="/garantii-0" element={<DesignGuarantees />} />
+        <Route
+          path="/interior-design-warranty"
+          element={<DesignGuarantees />}
+        />
+
+        <Route
+          path="/atlaides-interjera-dizainam"
+          element={<DesignDiscounts />}
+        />
+        <Route
+          path="/skidki-na-dizayn-interera"
+          element={<DesignDiscounts />}
+        />
+        <Route
+          path="/interior-design-discounts"
+          element={<DesignDiscounts />}
+        />
+
+        <Route path="/dizaina-projekta-sastavs" element={<Composition />} />
+        <Route path="/sostav-dizayn-proekta" element={<Composition />} />
+        <Route path="/interior-design-composition" element={<Composition />} />
+
+        {/* ------------------------------------ */}
+        {/* DESIGN CLIENT TYPES */}
+        {/* ------------------------------------ */}
+        <Route
+          path="/dizains-un-dzivoklu-remonts"
+          element={<LivingRoomDesign />}
+        />
+        <Route path="/dizayn-i-remont-kvartir" element={<LivingRoomDesign />} />
+        <Route
+          path="/apartment-interior-design"
+          element={<LivingRoomDesign />}
+        />
+
+        <Route path="/node/289" element={<HouseDesign />} />
+        <Route path="/majas-dizains" element={<HouseDesign />} />
+        <Route path="/house-interior-design" element={<HouseDesign />} />
+
+        <Route path="/dekoresana" element={<Decoration />} />
+        <Route path="/dekorirovanie" element={<Decoration />} />
+        <Route path="/interior-decor" element={<Decoration />} />
+
+        <Route path="/telpu-dizains" element={<InteriorDesign />} />
+        <Route path="/dizayn-pomeshcheniy" element={<InteriorDesign />} />
+        <Route path="/interior-design" element={<InteriorDesign />} />
+
+        <Route path="/biroju-dizains" element={<OfficeDesign />} />
+        <Route path="/dizayn-ofisov" element={<OfficeDesign />} />
+        <Route path="/office-interior-design" element={<OfficeDesign />} />
+
+        <Route
+          path="/kafejnicas-un-restorana-dizains"
+          element={<RestaurantDesign />}
+        />
+        <Route path="/dizayn-restorana-i-kafe" element={<RestaurantDesign />} />
+        <Route
+          path="/restaurant-interior-design"
+          element={<RestaurantDesign />}
+        />
+
+        <Route path="/naktsklubu-dizains" element={<ClubDesign />} />
+        <Route path="/dizayn-nochnogo-kluba" element={<ClubDesign />} />
+        <Route path="/nightclub-interior-design" element={<ClubDesign />} />
       </Routes>
     </>
   );

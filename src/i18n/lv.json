@@ -15,7 +15,7 @@
     "badge": "Profesionāls remonts",
     "title": "Iestieptie griesti",
     "city": "Rīgā",
-    "subtitle": "Meistara izbraukums un mērījumi bez maksas, garantija līdz 10 gadiem",
+    "subtitle": "Meistara izbraukums un mērījumi bez maksas, garantija līdz 20 gadiem",
     "btnConsult": "Saņemt konsultāciju",
     "btnServices": "Mūsu pakalpojumi",
     "stats": {
@@ -29,11 +29,11 @@
     },
     "reviews": {
       "review1": {
-        "name": "Anna Petrova",
+        "name": "Rainers Kalniņš",
         "text": "Lielisks darbs! Griesti tika uzstādīti ātri un kvalitatīvi. Meistari ir profesionāļi savā jomā."
       },
       "review2": {
-        "name": "Mihails Ivanovs",
+        "name": "Edgars Liepiņš",
         "text": "Esmu ļoti apmierināts ar rezultātu. Cenas ir pieņemamas, termiņi tika ievēroti. Iesaku!"
       },
       "review3": {
@@ -52,7 +52,7 @@
     "certified": "Sertificēti materiāli",
     "certifiedDesc": "Premium kvalitāte no Eiropas",
     "warranty": "Kvalitātes garantija",
-    "warrantyDesc": "Līdz 10 gadiem uz darbu un materiāliem"
+    "warrantyDesc": "Līdz 20 gadiem uz darbu un materiāliem"
   },
 
   "services": {

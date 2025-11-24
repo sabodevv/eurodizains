@@ -1,10 +1,26 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
+import { slugMap } from "../utils/slugMap";
 
 export default function RepairsSidebar() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Преобразует внутренний slug (/repairs/standard) → локализованный URL
+  const translateSlug = (baseSlug) => {
+    const lang = i18n.language;
+
+    // Если этот путь есть в slugMap → возвращаем перевод
+    if (slugMap[baseSlug]) {
+      return slugMap[baseSlug][lang] + `?language=${lang}`;
+    }
+
+    // Если нет → оставляем как есть
+    return baseSlug + `?language=${lang}`;
+  };
 
   const sections = [
     {
@@ -38,6 +54,12 @@ export default function RepairsSidebar() {
     },
   ];
 
+  // Определяем активный пункт, сравнивая pathname со slugMap
+  const isActivePath = (baseSlug) => {
+    if (!slugMap[baseSlug]) return false;
+    return Object.values(slugMap[baseSlug]).includes(location.pathname);
+  };
+
   return (
     <motion.aside
       className="sticky top-28 w-full md:w-72 bg-white/80 backdrop-blur-xl border-2 border-blue-100 p-6 rounded-3xl shadow-xl"
@@ -53,7 +75,7 @@ export default function RepairsSidebar() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: i * 0.1 }}
         >
-          {/* Section title */}
+          {/* Заголовок секции */}
           <div className="relative mb-4">
             <div className="absolute -left-3 top-1 w-1 h-5 bg-gradient-to-b from-[#3B82F6] to-[#38BDF8] rounded-full"></div>
             <p className="text-sm font-bold text-gray-800 uppercase tracking-wide">
@@ -61,48 +83,49 @@ export default function RepairsSidebar() {
             </p>
           </div>
 
-          {/* Links */}
+          {/* Ссылки */}
           <div className="space-y-1">
-            {block.links.map((l, idx) => (
-              <NavLink
-                key={idx}
-                to={l.to}
-                className={({ isActive }) =>
-                  `group flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
-                    isActive
-                      ? "bg-gradient-to-r from-[#3B82F6] to-[#38BDF8] text-white shadow-md"
-                      : "text-gray-700 hover:bg-blue-50 hover:text-[#3B82F6]"
-                  }`
-                }
-              >
-                {({ isActive }) => (
-                  <>
-                    <span>{l.label}</span>
-                    <motion.div
-                      initial={{ opacity: 0, x: -5 }}
-                      animate={{
-                        opacity: isActive ? 1 : 0,
-                        x: isActive ? 0 : -5,
-                      }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <ChevronRight
-                        className={`w-4 h-4 ${
-                          isActive
-                            ? "text-white"
-                            : "text-transparent group-hover:text-[#3B82F6]"
-                        }`}
-                      />
-                    </motion.div>
-                  </>
-                )}
-              </NavLink>
-            ))}
+            {block.links.map((link, idx) => {
+              const active = isActivePath(link.to);
+
+              return (
+                <NavLink
+                  key={idx}
+                  to={translateSlug(link.to)}
+                  className={`
+                    group flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all
+                    ${
+                      active
+                        ? "bg-gradient-to-r from-[#3B82F6] to-[#38BDF8] text-white shadow-md"
+                        : "text-gray-700 hover:bg-blue-50 hover:text-[#3B82F6]"
+                    }
+                  `}
+                >
+                  <span>{link.label}</span>
+
+                  <motion.div
+                    initial={{ opacity: 0, x: -5 }}
+                    animate={{
+                      opacity: active ? 1 : 0,
+                      x: active ? 0 : -5,
+                    }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <ChevronRight
+                      className={`w-4 h-4 ${
+                        active
+                          ? "text-white"
+                          : "text-transparent group-hover:text-[#3B82F6]"
+                      }`}
+                    />
+                  </motion.div>
+                </NavLink>
+              );
+            })}
           </div>
         </motion.div>
       ))}
 
-      {/* Decorative bottom element */}
       <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#3B82F6] to-transparent rounded-b-3xl"></div>
     </motion.aside>
   );

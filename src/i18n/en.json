@@ -15,7 +15,7 @@
     "badge": "Professional renovation",
     "title": "Stretch ceilings",
     "city": "in Riga",
-    "subtitle": "Free technician visit and measurements, up to 10-year warranty",
+    "subtitle": "Free technician visit and measurements, up to 20-year warranty",
     "btnConsult": "Get a consultation",
     "btnServices": "Our services",
     "stats": {
@@ -29,11 +29,11 @@
     },
     "reviews": {
       "review1": {
-        "name": "Anna Petrova",
+        "name": "Rainers Kalnins",
         "text": "Great work! The ceilings were installed quickly and with excellent quality. True professionals."
       },
       "review2": {
-        "name": "Mikhail Ivanov",
+        "name": "Edgars Liepins",
         "text": "Very satisfied with the result. Fair prices, deadlines met. Highly recommend!"
       },
       "review3": {
@@ -52,7 +52,7 @@
     "certified": "Certified materials",
     "certifiedDesc": "Premium European quality",
     "warranty": "Quality guarantee",
-    "warrantyDesc": "Up to 10 years on work and materials"
+    "warrantyDesc": "Up to 20 years on work and materials"
   },
 
   "services": {

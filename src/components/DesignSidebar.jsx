@@ -1,85 +1,56 @@
 import { useTranslation } from "react-i18next";
-import { Link, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
+import { slugMap } from "../utils/slugMap";
+import { useLocation } from "react-router-dom";
 
 export default function DesignSidebar() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const location = useLocation();
+  const lang = i18n.language;
 
+  // ===========================
+  // Helper: translate slug
+  // ===========================
+  const translateSlug = (basePath) => {
+    if (slugMap[basePath]) {
+      return `${slugMap[basePath][lang]}?language=${lang}`;
+    }
+    return `${basePath}?language=${lang}`;
+  };
+
+  // ===========================
+  // MENU STRUCTURE
+  // ===========================
   const menuTop = [
-    {
-      label: t("design.sidebar.composition"),
-      path: "/design/composition",
-    },
-    {
-      label: t("design.sidebar.standard"),
-      path: "/design/standard",
-    },
-    {
-      label: t("design.sidebar.premium"),
-      path: "/design/premium",
-    },
-    {
-      label: t("design.sidebar.vip"),
-      path: "/design/vip",
-    },
-    {
-      label: t("design.sidebar.visual"),
-      path: "/design/3d-visual",
-    },
-    {
-      label: t("design.sidebar.supervision"),
-      path: "/design/supervision",
-    },
-    {
-      label: t("design.sidebar.warranty"),
-      path: "/design/warranty",
-    },
-    {
-      label: t("design.sidebar.discounts"),
-      path: "/design/discounts",
-    },
+    { label: t("design.sidebar.composition"), to: "/design/composition" },
+    { label: t("design.sidebar.standard"), to: "/design/standard" },
+    { label: t("design.sidebar.premium"), to: "/design/premium" },
+    { label: t("design.sidebar.vip"), to: "/design/vip" },
+    { label: t("design.sidebar.visual"), to: "/design/3d-visual" },
+    { label: t("design.sidebar.supervision"), to: "/design/supervision" },
+    { label: t("design.sidebar.warranty"), to: "/design/warranty" },
+    { label: t("design.sidebar.discounts"), to: "/design/discounts" },
   ];
 
   const menuBottom = [
-    {
-      label: t("design.sidebar.apartments"),
-      path: "/design/apartments",
-    },
-    {
-      label: t("design.sidebar.houses"),
-      path: "/design/houses",
-    },
-    {
-      label: t("design.sidebar.decor"),
-      path: "/design/decor",
-    },
-    {
-      label: t("design.sidebar.interiors"),
-      path: "/design/interiors",
-    },
-    {
-      label: t("design.sidebar.offices"),
-      path: "/design/offices",
-    },
-    {
-      label: t("design.sidebar.restaurants"),
-      path: "/design/restaurants",
-    },
-    {
-      label: t("design.sidebar.nightclubs"),
-      path: "/design/nightclubs",
-    },
+    { label: t("design.sidebar.apartments"), to: "/design/apartments" },
+    { label: t("design.sidebar.houses"), to: "/design/houses" },
+    { label: t("design.sidebar.decor"), to: "/design/decor" },
+    { label: t("design.sidebar.interiors"), to: "/design/interiors" },
+    { label: t("design.sidebar.offices"), to: "/design/offices" },
+    { label: t("design.sidebar.restaurants"), to: "/design/restaurants" },
+    { label: t("design.sidebar.nightclubs"), to: "/design/nightclubs" },
   ];
 
   return (
     <motion.div
-      className="sticky top-28 w-72 bg-white/80 backdrop-blur-xl border-2 border-blue-100 p-6 rounded-3xl shadow-xl"
+      className="sticky top-28 w-full md:w-72 bg-white/80 backdrop-blur-xl border-2 border-blue-100 p-6 rounded-3xl shadow-xl"
       initial={{ opacity: 0, x: -30 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5 }}
     >
-      {/* PROJECT */}
+      {/* TOP SECTION */}
       <motion.div
         className="mb-8"
         initial={{ opacity: 0, y: 20 }}
@@ -92,24 +63,33 @@ export default function DesignSidebar() {
             {t("design.sidebar.project")}
           </h3>
         </div>
+
         <div className="space-y-1">
-          {menuTop.map((item, i) => (
-            <Link
-              key={i}
-              to={item.path}
-              className={`block px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
-                location.pathname === item.path
-                  ? "bg-gradient-to-r from-[#3B82F6] to-[#38BDF8] text-white shadow-md"
-                  : "text-gray-700 hover:bg-blue-50 hover:text-[#3B82F6]"
-              }`}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {menuTop.map((item, i) => {
+            const slug = slugMap[item.to]?.[lang];
+            const isActive = slug && location.pathname === slug;
+
+            return (
+              <NavLink
+                key={i}
+                to={translateSlug(item.to)}
+                className={`
+                  block px-4 py-3 rounded-xl text-sm font-semibold transition-all
+                  ${
+                    isActive
+                      ? "bg-gradient-to-r from-[#3B82F6] to-[#38BDF8] text-white shadow-md"
+                      : "text-gray-700 hover:bg-blue-50 hover:text-[#3B82F6]"
+                  }
+                `}
+              >
+                {item.label}
+              </NavLink>
+            );
+          })}
         </div>
       </motion.div>
 
-      {/* CLIENTS */}
+      {/* BOTTOM SECTION */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -121,20 +101,29 @@ export default function DesignSidebar() {
             {t("design.sidebar.clients")}
           </h3>
         </div>
+
         <div className="space-y-1">
-          {menuBottom.map((item, i) => (
-            <Link
-              key={i}
-              to={item.path}
-              className={`block px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
-                location.pathname === item.path
-                  ? "bg-gradient-to-r from-[#3B82F6] to-[#38BDF8] text-white shadow-md"
-                  : "text-gray-700 hover:bg-blue-50 hover:text-[#3B82F6]"
-              }`}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {menuBottom.map((item, i) => {
+            const slug = slugMap[item.to]?.[lang];
+            const isActive = slug && location.pathname === slug;
+
+            return (
+              <NavLink
+                key={i}
+                to={translateSlug(item.to)}
+                className={`
+                  block px-4 py-3 rounded-xl text-sm font-semibold transition-all
+                  ${
+                    isActive
+                      ? "bg-gradient-to-r from-[#3B82F6] to-[#38BDF8] text-white shadow-md"
+                      : "text-gray-700 hover:bg-blue-50 hover:text-[#3B82F6]"
+                  }
+                `}
+              >
+                {item.label}
+              </NavLink>
+            );
+          })}
         </div>
       </motion.div>
 

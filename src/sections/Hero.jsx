@@ -123,7 +123,7 @@ export default function Hero({ setCurrentPage }) {
               </div>
             </div>
             <div className="text-center lg:text-left">
-              <div className="text-3xl font-bold text-[#3B82F6]">500+</div>
+              <div className="text-3xl font-bold text-[#3B82F6]">5000+</div>
               <div className="text-sm text-gray-600 font-medium">
                 {t("hero.stats.projects")}
               </div>
