@@ -6,9 +6,9 @@ import ContactPopup from "../components/ContactPopup";
 
 export default function Gallery() {
   const { t } = useTranslation();
-
-  // === POPUP CONTROL ===
   const [showPopup, setShowPopup] = useState(false);
+
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   const items = [
     {
@@ -42,19 +42,27 @@ export default function Gallery() {
       id="gallery"
       className="pt-32 pb-20 px-6 relative overflow-hidden flex flex-col items-center justify-center"
     >
-      {/* Popup */}
       <ContactPopup isOpen={showPopup} onClose={() => setShowPopup(false)} />
 
-      {/* Decorative background */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 left-20 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl" />
-      </div>
+      {/* MOBILE — LIGHT VERSION OF BACKGROUND */}
+      {!isMobile && (
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 left-20 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl" />
+        </div>
+      )}
+
+      {isMobile && (
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-10 right-10 w-60 h-60 bg-blue-300/15 rounded-full" />
+          <div className="absolute bottom-10 left-10 w-52 h-52 bg-cyan-300/15 rounded-full" />
+        </div>
+      )}
 
       <motion.div
         className="text-center mb-20 w-full"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={isMobile ? false : { opacity: 0, y: 40 }}
+        animate={isMobile ? {} : { opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
         <h2 className="text-5xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-[#3B82F6] via-[#38BDF8] to-[#60A5FA] bg-clip-text text-transparent drop-shadow-sm">
@@ -66,17 +74,32 @@ export default function Gallery() {
         </p>
       </motion.div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl w-full">
+      <div
+        className={`grid ${
+          isMobile ? "grid-cols-1" : "sm:grid-cols-2 lg:grid-cols-4"
+        } gap-8 max-w-7xl w-full`}
+      >
         {items.map((item, index) => (
           <motion.div
             key={item.id}
-            className="group relative w-full aspect-square rounded-3xl overflow-hidden border-2 border-blue-100 bg-white/80 backdrop-blur-xl shadow-xl hover:shadow-2xl hover:border-[#3B82F6] transition-all cursor-pointer"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            className={`
+              group relative w-full aspect-square rounded-3xl overflow-hidden 
+              border-2 border-blue-100 
+              ${
+                isMobile
+                  ? "shadow-md bg-white/80"
+                  : "backdrop-blur-xl shadow-xl bg-white/80"
+              } 
+              hover:shadow-2xl hover:border-[#3B82F6] 
+              transition-all cursor-pointer
+            `}
+            initial={isMobile ? false : { opacity: 0, y: 40 }}
+            whileInView={isMobile ? {} : { opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: index * 0.1, duration: 0.6 }}
-            whileHover={{ y: -8, scale: 1.02 }}
+            transition={{ delay: isMobile ? 0 : index * 0.1, duration: 0.6 }}
+            whileHover={isMobile ? {} : { y: -8, scale: 1.02 }}
           >
+            {/* CLICKABLE LINK */}
             <a
               href={item.link}
               target="_blank"
@@ -85,18 +108,36 @@ export default function Gallery() {
               aria-label={`View ${item.title} in 360°`}
             />
 
+            {/* IMAGE */}
             <div
-              className="absolute inset-0 bg-cover bg-center transition-all duration-700 group-hover:scale-110"
+              className={`absolute inset-0 bg-cover bg-center transition-all duration-700 ${
+                isMobile ? "" : "group-hover:scale-110"
+              }`}
               style={{ backgroundImage: `url(${item.img})` }}
             />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-[#3B82F6]/80 via-[#3B82F6]/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
+            {/* DESKTOP — gradient overlay */}
+            {!isMobile && (
+              <div className="absolute inset-0 bg-gradient-to-t from-[#3B82F6]/80 via-[#3B82F6]/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
+            )}
 
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-6 opacity-0 group-hover:opacity-100 transition-all duration-500 z-10">
+            {/* CONTENT OVERLAY */}
+            <div
+              className={`
+                absolute inset-0 flex flex-col items-center justify-center p-6 
+                ${
+                  isMobile
+                    ? "bg-black/40 opacity-100"
+                    : "opacity-0 group-hover:opacity-100"
+                } 
+                transition-all duration-500 z-10
+              `}
+            >
               <Eye className="w-12 h-12 text-white mb-3" />
-              <h3 className="text-xl font-bold text-white mb-2">
+              <h3 className="text-xl font-bold text-white mb-2 text-center px-2">
                 {item.title}
               </h3>
+
               <div className="flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-semibold">
                 {t("gallery.view360")}
                 <ExternalLink className="w-4 h-4" />
@@ -108,13 +149,12 @@ export default function Gallery() {
 
       <motion.div
         className="mt-16 text-center"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={isMobile ? false : { opacity: 0, y: 20 }}
+        animate={isMobile ? {} : { opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
         <p className="text-gray-600 font-medium mb-4">{t("gallery.cta")}</p>
 
-        {/* 🔥 КНОПКА ОТКРЫВАЕТ POPUP */}
         <motion.button
           className="px-8 py-4 bg-gradient-to-r from-[#3B82F6] to-[#38BDF8] rounded-full text-white font-bold text-lg shadow-xl hover:shadow-2xl transition-all"
           whileHover={{ scale: 1.05 }}

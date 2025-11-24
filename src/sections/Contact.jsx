@@ -4,6 +4,7 @@ import { Phone, Mail, MapPin } from "lucide-react";
 
 export default function Footer() {
   const { t } = useTranslation();
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   return (
     <footer
@@ -12,10 +13,19 @@ export default function Footer() {
     >
       <div className="container mx-auto px-6">
         {/* Контактная информация */}
-        <div className="flex flex-col md:flex-row justify-center items-center gap-8 mb-6">
+        <div
+          className="
+            flex 
+            flex-col md:flex-row 
+            justify-center 
+            items-start md:items-center 
+            gap-8 mb-6
+          "
+        >
+          {/* PHONE */}
           <motion.div
-            className="flex items-center gap-3"
-            whileHover={{ scale: 1.05 }}
+            className="flex w-full md:w-auto items-center gap-3"
+            whileHover={isMobile ? undefined : { scale: 1.05 }}
           >
             <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg">
               <Phone className="w-5 h-5 text-white" />
@@ -31,9 +41,10 @@ export default function Footer() {
             </div>
           </motion.div>
 
+          {/* EMAIL */}
           <motion.div
-            className="flex items-center gap-3"
-            whileHover={{ scale: 1.05 }}
+            className="flex w-full md:w-auto items-center gap-3"
+            whileHover={isMobile ? undefined : { scale: 1.05 }}
           >
             <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg">
               <Mail className="w-5 h-5 text-white" />
@@ -42,16 +53,17 @@ export default function Footer() {
               <p className="text-gray-400 text-sm">{t("contact.email")}</p>
               <a
                 href="mailto:eurodizains@inbox.lv"
-                className="text-cyan-400 font-semibold hover:text-cyan-300 transition-colors"
+                className="text-cyan-400 font-semibold hover:text-cyan-300 transition-colors break-all"
               >
                 eurodizains@inbox.lv
               </a>
             </div>
           </motion.div>
 
+          {/* ADDRESS */}
           <motion.div
-            className="flex items-center gap-3"
-            whileHover={{ scale: 1.05 }}
+            className="flex w-full md:w-auto items-center gap-3"
+            whileHover={isMobile ? undefined : { scale: 1.05 }}
           >
             <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg">
               <MapPin className="w-5 h-5 text-white" />

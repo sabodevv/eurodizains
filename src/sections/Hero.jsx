@@ -8,6 +8,8 @@ export default function Hero({ setCurrentPage }) {
   const { t } = useTranslation();
   const [showPopup, setShowPopup] = useState(false);
 
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
   const reviews = [
     {
       name: t("hero.reviews.review1.name"),
@@ -28,30 +30,50 @@ export default function Hero({ setCurrentPage }) {
 
   return (
     <>
-      {/* POPUP */}
       <ContactPopup isOpen={showPopup} onClose={() => setShowPopup(false)} />
 
       <section
         id="home"
-        className="relative min-h-screen flex flex-col lg:flex-row justify-center items-center text-center lg:text-left px-6 lg:px-20 overflow-hidden"
+        className="
+          relative min-h-screen 
+          flex flex-col lg:flex-row
+          justify-start lg:justify-center 
+          items-center 
+          text-center lg:text-left 
+          px-6 lg:px-20 
+          overflow-hidden
+        "
       >
-        {/* Decorative background */}
+        {/* Background */}
         <div className="absolute inset-0 -z-10">
-          <div className="absolute top-20 left-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-20 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-500/5 rounded-full blur-3xl"></div>
+          <div
+            className={`absolute top-20 left-10 w-96 h-96 bg-blue-500/10 rounded-full ${
+              !isMobile ? "blur-3xl" : ""
+            }`}
+          ></div>
+          <div
+            className={`absolute bottom-20 right-20 w-[500px] h-[500px] bg-cyan-500/10 rounded-full ${
+              !isMobile ? "blur-3xl" : ""
+            }`}
+          ></div>
+          <div
+            className={`absolute top-1/2 left-1/2 
+              -translate-x-1/2 -translate-y-1/2 
+              w-[600px] h-[600px] bg-purple-500/5 rounded-full 
+              ${!isMobile ? "blur-3xl" : ""}`}
+          ></div>
         </div>
 
         {/* LEFT CONTENT */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={isMobile ? false : { opacity: 0, y: 50 }}
+          animate={isMobile ? {} : { opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="z-10 lg:pr-12 max-w-2xl"
+          className="z-10 lg:pr-12 max-w-2xl pt-24 lg:pt-0"
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={isMobile ? false : { opacity: 0, scale: 0.9 }}
+            animate={isMobile ? {} : { opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.6 }}
             className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-100 rounded-full mb-6"
           >
@@ -62,8 +84,8 @@ export default function Hero({ setCurrentPage }) {
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={isMobile ? false : { opacity: 0, y: 20 }}
+            animate={isMobile ? {} : { opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
             className="text-5xl lg:text-7xl font-extrabold mb-6 leading-tight"
           >
@@ -75,25 +97,24 @@ export default function Hero({ setCurrentPage }) {
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={isMobile ? false : { opacity: 0, y: 20 }}
+            animate={isMobile ? {} : { opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
             className="text-xl text-gray-600 mb-10 leading-relaxed font-medium"
           >
             {t("hero.subtitle")}
           </motion.p>
 
-          {/* BUTTONS */}
+          {/* BUTTON */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={isMobile ? false : { opacity: 0, y: 20 }}
+            animate={isMobile ? {} : { opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.8 }}
             className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4"
           >
-            {/* OPEN POPUP */}
             <motion.button
               className="group relative px-8 py-4 bg-gradient-to-r from-[#3B82F6] to-[#38BDF8] rounded-full text-white font-bold text-lg shadow-xl hover:shadow-2xl transition-all overflow-hidden"
-              whileHover={{ scale: 1.05, y: -2 }}
+              whileHover={isMobile ? undefined : { scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setShowPopup(true)}
             >
@@ -105,10 +126,10 @@ export default function Hero({ setCurrentPage }) {
             </motion.button>
           </motion.div>
 
-          {/* Indicators */}
+          {/* Stats */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={isMobile ? false : { opacity: 0, y: 20 }}
+            animate={isMobile ? {} : { opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
             className="flex flex-wrap justify-center lg:justify-start gap-8 mt-12"
           >
@@ -133,28 +154,36 @@ export default function Hero({ setCurrentPage }) {
           </motion.div>
         </motion.div>
 
-        {/* RIGHT CARD */}
+        {/* RIGHT SIDE (CARD) */}
         <motion.div
           className="relative w-full lg:w-[550px] mt-16 lg:mt-0"
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={isMobile ? false : { opacity: 0, x: 50 }}
+          animate={isMobile ? {} : { opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
           <div className="relative">
+            {/* MAIN CARD */}
             <motion.div
-              className="relative w-full bg-white/80 backdrop-blur-xl rounded-3xl border-2 border-blue-100 shadow-2xl overflow-hidden"
-              whileHover={{ scale: 1.02 }}
+              className={`relative w-full ${
+                isMobile ? "bg-white/95" : "bg-white/80 backdrop-blur-xl"
+              } rounded-3xl border-2 border-blue-100 shadow-2xl overflow-hidden`}
+              whileHover={isMobile ? undefined : { scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-[#3B82F6]/10 via-transparent to-[#38BDF8]/10"></div>
 
-              {/* Google Rating */}
               <div className="relative z-10 p-8">
+                {/* GOOGLE RATING */}
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={isMobile ? false : { opacity: 0, y: 20 }}
+                  animate={isMobile ? {} : { opacity: 1, y: 0 }}
                   transition={{ delay: 0.8 }}
-                  className="bg-gradient-to-br from-white to-blue-50/50 backdrop-blur-sm rounded-2xl p-6 shadow-lg mb-6 border border-blue-100/50"
+                  className={`${
+                    isMobile
+                      ? "bg-white"
+                      : "bg-gradient-to-br from-white to-blue-50/50 backdrop-blur-sm"
+                  } 
+                    rounded-2xl p-6 shadow-lg mb-6 border border-blue-100/50`}
                 >
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
@@ -165,6 +194,7 @@ export default function Hero({ setCurrentPage }) {
                         Google
                       </span>
                     </div>
+
                     <div className="text-right">
                       <div className="text-3xl font-bold text-gray-800">
                         5.0
@@ -174,6 +204,7 @@ export default function Hero({ setCurrentPage }) {
                       </div>
                     </div>
                   </div>
+
                   <div className="flex gap-1 justify-center">
                     {[...Array(5)].map((_, i) => (
                       <Star
@@ -184,15 +215,17 @@ export default function Hero({ setCurrentPage }) {
                   </div>
                 </motion.div>
 
-                {/* Reviews */}
+                {/* REVIEWS */}
                 <div className="space-y-4">
                   {reviews.map((review, index) => (
                     <motion.div
                       key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
+                      initial={isMobile ? false : { opacity: 0, y: 20 }}
+                      animate={isMobile ? {} : { opacity: 1, y: 0 }}
                       transition={{ delay: 0.9 + index * 0.1 }}
-                      className="bg-white/90 backdrop-blur-sm rounded-xl p-4 shadow-md hover:shadow-lg transition-shadow"
+                      className={`${
+                        isMobile ? "bg-white" : "bg-white/90 backdrop-blur-sm"
+                      } rounded-xl p-4 shadow-md hover:shadow-lg transition-shadow`}
                     >
                       <div className="flex items-start gap-3">
                         <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-[#3B82F6] to-[#38BDF8] rounded-full flex items-center justify-center text-white font-bold">
@@ -221,12 +254,13 @@ export default function Hero({ setCurrentPage }) {
                   ))}
                 </div>
 
+                {/* GOOGLE LINK */}
                 <motion.a
                   href="https://www.google.com/search?kgmid=/g/11dxqgbtyp"
                   target="_blank"
                   rel="noopener noreferrer"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
+                  initial={isMobile ? false : { opacity: 0 }}
+                  animate={isMobile ? {} : { opacity: 1 }}
                   transition={{ delay: 1.2 }}
                   className="block mt-4 text-center text-sm text-[#3B82F6] hover:text-[#2563EB] font-medium transition-colors"
                 >
@@ -234,22 +268,30 @@ export default function Hero({ setCurrentPage }) {
                 </motion.a>
               </div>
 
-              {/* Bottom shine */}
+              {/* bottom shine */}
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#3B82F6] to-transparent"></div>
             </motion.div>
 
-            {/* Floating elements */}
+            {/* FLOATING DECOR (desktop only) */}
             <motion.div
-              className="absolute -top-6 -right-6 w-20 h-20 bg-white/80 backdrop-blur-xl rounded-2xl border-2 border-blue-100 shadow-xl flex items-center justify-center"
-              animate={{ y: [0, -10, 0] }}
+              className={`absolute -top-6 -right-6 w-20 h-20 ${
+                isMobile
+                  ? "bg-white shadow-xl rounded-2xl border border-blue-100"
+                  : "bg-white/80 backdrop-blur-xl rounded-2xl border-2 border-blue-100"
+              } flex items-center justify-center`}
+              animate={isMobile ? undefined : { y: [0, -10, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             >
               <Star className="w-10 h-10 fill-yellow-400 text-yellow-400" />
             </motion.div>
 
             <motion.div
-              className="absolute -bottom-6 -left-6 w-24 h-24 bg-white/80 backdrop-blur-xl rounded-2xl border-2 border-blue-100 shadow-xl flex items-center justify-center"
-              animate={{ y: [0, 10, 0] }}
+              className={`absolute -bottom-6 -left-6 w-24 h-24 ${
+                isMobile
+                  ? "bg-white shadow-xl rounded-2xl border border-blue-100"
+                  : "bg-white/80 backdrop-blur-xl rounded-2xl border-2 border-blue-100"
+              } flex items-center justify-center`}
+              animate={isMobile ? undefined : { y: [0, 10, 0] }}
               transition={{
                 duration: 3,
                 repeat: Infinity,
