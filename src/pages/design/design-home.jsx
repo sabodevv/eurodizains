@@ -13,7 +13,7 @@ export default function DesignHome() {
 
   const paragraphs = t("design.home.paragraphs", { returnObjects: true });
   const listItems = t("design.home.list", { returnObjects: true });
-  const image = "/public/design/home/imagehome.jpg";
+  const image = "/design/home/imagehome.jpg"; // Исправленный путь
 
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
@@ -22,7 +22,9 @@ export default function DesignHome() {
       {/* POPUP */}
       <ContactPopup isOpen={showPopup} onClose={() => setShowPopup(false)} />
 
-      <div className="pt-20 md:pt-28 flex relative min-h-screen overflow-hidden">
+      <div className="pt-20 md:pt-28 flex relative min-h-[100dvh] overflow-hidden">
+        {" "}
+        {/* Исправлена высота для мобильных */}
         {/* 🎨 EXACT SAME BACKGROUND AS REPAIRSHOME */}
         <div className="absolute inset-0 -z-10">
           {/* Desktop */}
@@ -41,12 +43,10 @@ export default function DesignHome() {
             </>
           )}
         </div>
-
         {/* SIDEBAR */}
         <div className="hidden lg:block w-72 px-6 relative z-20">
           <DesignSidebar />
         </div>
-
         {/* CONTENT */}
         <div className="flex-1 px-4 sm:px-6 md:px-10 lg:px-14 max-w-5xl mx-auto pb-16 md:pb-20 relative z-20">
           {/* HEADER */}
