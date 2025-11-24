@@ -122,11 +122,6 @@ export const slugMap = {
   // ----------------------------------------
   // Design → Проектные страницы
   // ----------------------------------------
-  "/design/project-content": {
-    lv: "/dizaina-projekta-sastavs",
-    ru: "/sostav-dizayn-proekta",
-    en: "/interior-design-project-content",
-  },
 
   "/design/standard": {
     lv: "/dizaina-projekts-standard",

@@ -239,12 +239,11 @@ export default function App() {
         {/* ------------------------------------ */}
         {/* DESIGN PROJECT PAGES */}
         {/* ------------------------------------ */}
-        <Route path="/dizaina-projekta-sastavs" element={<ProjectContent />} />
-        <Route path="/sostav-dizayn-proekta" element={<ProjectContent />} />
-        <Route
-          path="/interior-design-project-content"
-          element={<ProjectContent />}
-        />
+        {/* Design → Composition */}
+        {/* Design → Project Composition / Content */}
+        <Route path="/dizaina-projekta-sastavs" element={<Composition />} />
+        <Route path="/sostav-dizayn-proekta" element={<Composition />} />
+        <Route path="/interior-design-composition" element={<Composition />} />
 
         <Route
           path="/dizaina-projekts-standard"
