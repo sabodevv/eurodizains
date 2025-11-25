@@ -32,7 +32,6 @@ import Finishing from "./pages/repairs/finishing.jsx";
 
 // Design Pages
 import DesignHome from "./pages/design/design-home.jsx";
-import ProjectContent from "./pages/design/project-content.jsx";
 import ProjectStandard from "./pages/design/project-standard.jsx";
 import ProjectPremium from "./pages/design/project-premium.jsx";
 import ProjectVip from "./pages/design/project-vip.jsx";

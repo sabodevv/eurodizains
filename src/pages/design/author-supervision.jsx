@@ -4,7 +4,7 @@ import DesignSidebarMobile from "../../components/DesignSidebarMobile";
 import ContactPopup from "../../components/ContactPopup";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { Layers, Sparkles, ArrowRight, Menu } from "lucide-react";
+import { LayoutGrid, Layers, Sparkles, ArrowRight } from "lucide-react"; // Использована новая иконка LayoutGrid
 
 export default function AuthorSupervision() {
   const { t } = useTranslation();
@@ -27,21 +27,21 @@ export default function AuthorSupervision() {
         <motion.button
           onClick={() => setMobileSidebar(true)}
           className="
-            fixed top-20 left-4 z-40
-            w-14 h-14
-            rounded-2xl
-            flex items-center justify-center
-            bg-white/60
-            backdrop-blur-xl
-            shadow-xl shadow-blue-200/50
-            border border-white/40
-            active:scale-95
-          "
+    fixed top-20 right-4 z-40  {/* Исправлено: теперь кнопка справа */}
+    w-14 h-14
+    rounded-2xl
+    flex items-center justify-center
+    bg-white/60
+    backdrop-blur-xl
+    shadow-xl shadow-blue-200/50
+    border border-white/40
+    active:scale-95
+  "
           whileHover={{ scale: 1.07 }}
           whileTap={{ scale: 0.95 }}
         >
           <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#3B82F6]/10 to-[#38BDF8]/10 pointer-events-none" />
-          <Menu className="w-6 h-6 text-[#3B82F6] relative z-10" />
+          <LayoutGrid className="w-6 h-6 text-[#3B82F6] relative z-10" />
         </motion.button>
       )}
 

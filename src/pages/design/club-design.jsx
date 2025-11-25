@@ -9,6 +9,8 @@ import {
   ArrowRight,
   ZoomIn,
   X,
+  LayoutGrid,
+  Layers,
   Menu,
 } from "lucide-react";
 import { useState } from "react";
@@ -39,11 +41,22 @@ export default function ClubDesign() {
       {isMobile && (
         <motion.button
           onClick={() => setMobileSidebar(true)}
-          className="fixed top-20 left-4 z-40 w-14 h-14 bg-white/60 backdrop-blur-xl border border-white/40 shadow-xl rounded-2xl flex items-center justify-center active:scale-95"
+          className="
+    fixed top-20 right-4 z-40  {/* Исправлено: теперь кнопка справа */}
+    w-14 h-14
+    rounded-2xl
+    flex items-center justify-center
+    bg-white/60
+    backdrop-blur-xl
+    shadow-xl shadow-blue-200/50
+    border border-white/40
+    active:scale-95
+  "
           whileHover={{ scale: 1.07 }}
           whileTap={{ scale: 0.95 }}
         >
-          <Menu className="w-6 h-6 text-[#3B82F6]" />
+          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#3B82F6]/10 to-[#38BDF8]/10 pointer-events-none" />
+          <LayoutGrid className="w-6 h-6 text-[#3B82F6] relative z-10" />
         </motion.button>
       )}
 
