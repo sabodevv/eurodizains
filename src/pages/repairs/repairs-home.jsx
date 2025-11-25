@@ -1,13 +1,15 @@
 import { motion } from "framer-motion";
 import RepairsSidebar from "../../components/RepairsSidebar";
+import RepairsSidebarMobile from "../../components/RepairsSidebarMobile";
 import { useTranslation } from "react-i18next";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles, LayoutGrid } from "lucide-react";
 import { useState } from "react";
 import ContactPopup from "../../components/ContactPopup";
 
 export default function RepairsHome() {
   const { t } = useTranslation();
   const [showPopup, setShowPopup] = useState(false);
+  const [mobileSidebar, setMobileSidebar] = useState(false);
 
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
@@ -15,10 +17,28 @@ export default function RepairsHome() {
     <>
       <ContactPopup isOpen={showPopup} onClose={() => setShowPopup(false)} />
 
+      {/* === MOBILE SIDEBAR BUTTON === */}
+      {isMobile && (
+        <motion.button
+          onClick={() => setMobileSidebar(true)}
+          className="fixed top-20 right-4 z-40 w-14 h-14 rounded-2xl flex items-center justify-center bg-white/60 backdrop-blur-xl shadow-xl shadow-blue-200/50 border border-white/40 active:scale-95"
+          whileHover={{ scale: 1.07 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#3B82F6]/10 to-[#38BDF8]/10 pointer-events-none" />
+          <LayoutGrid className="w-6 h-6 text-[#3B82F6] drop-shadow-sm relative z-10" />
+        </motion.button>
+      )}
+
+      {/* === MOBILE SIDEBAR COMPONENT === */}
+      <RepairsSidebarMobile
+        isOpen={mobileSidebar}
+        onClose={() => setMobileSidebar(false)}
+      />
+
       <div className="pt-24 md:pt-28 flex relative overflow-hidden min-h-screen">
         {/* BACKGROUND */}
         <div className="absolute inset-0 -z-10">
-          {/* Desktop */}
           {!isMobile && (
             <>
               <div className="absolute top-40 right-20 w-[28rem] h-[28rem] bg-blue-500/10 rounded-full blur-3xl"></div>
@@ -26,7 +46,6 @@ export default function RepairsHome() {
             </>
           )}
 
-          {/* Mobile (такой же blur как desktop, только меньшие размеры) */}
           {isMobile && (
             <>
               <div className="absolute top-24 right-10 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
@@ -35,7 +54,7 @@ export default function RepairsHome() {
           )}
         </div>
 
-        {/* Sidebar */}
+        {/* SIDEBAR */}
         <div className="hidden md:block w-72 px-6">
           <RepairsSidebar />
         </div>

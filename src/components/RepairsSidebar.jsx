@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { slugMap } from "../utils/slugMap";
+import { useEffect } from "react";
 
 export default function RepairsSidebar() {
   const { t, i18n } = useTranslation();
@@ -59,6 +60,10 @@ export default function RepairsSidebar() {
     if (!slugMap[baseSlug]) return false;
     return Object.values(slugMap[baseSlug]).includes(location.pathname);
   };
+
+  useEffect(() => {
+    // Принудительно перерисовываем компонент при изменении языка
+  }, [i18n.language]); // следим за изменением языка
 
   return (
     <motion.aside

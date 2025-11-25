@@ -21,7 +21,7 @@
     "stats": {
       "experience": "years of experience",
       "projects": "projects",
-      "satisfaction": "satisfied clients"
+      "satisfaction": "implementation of objects"
     },
     "googleRating": {
       "basedOn": "based on reviews",
@@ -622,6 +622,29 @@
       ],
 
       "cta": "Request a consultation"
+    },
+
+    "sidebar": {
+      "categories": "Categories of Renovation",
+      "standard": "Standard Renovation",
+      "premium": "Premium Renovation",
+      "vip": "VIP Renovation",
+
+      "clients": "Clients and Services",
+      "apartments": "Apartment Renovation",
+      "houses": "House Renovation",
+      "offices": "Office Renovation",
+
+      "technology": "Renovation Technology",
+      "ceilings": "Ceiling Finishing",
+      "floors": "Floor Renovation",
+      "plumbing": "Plumbing Work",
+      "walls": "Wall Finishing",
+      "electrics": "Electrical Work",
+      "openings": "Wall Openings",
+      "demolition": "Demolition Work",
+      "finishing": "Finishing Work",
+      "remonti": "Renovation & Finishing"
     }
   },
   "design": {
@@ -643,7 +666,8 @@
       "interiors": "Interior design",
       "offices": "Office design",
       "restaurants": "Restaurant design",
-      "nightclubs": "Nightclub design"
+      "nightclubs": "Nightclub design",
+      "design": "Interior design"
     },
 
     "home": {

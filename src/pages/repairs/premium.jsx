@@ -1,9 +1,17 @@
 import { motion, AnimatePresence } from "framer-motion";
 import RepairsSidebar from "../../components/RepairsSidebar";
+import RepairsSidebarMobile from "../../components/RepairsSidebarMobile"; // Мобильная версия бокового меню
+import ContactPopup from "../../components/ContactPopup"; // ✅ added
 import { useTranslation } from "react-i18next";
-import { ArrowRight, CheckCircle, Sparkles, X, ZoomIn } from "lucide-react";
+import {
+  ArrowRight,
+  CheckCircle,
+  Sparkles,
+  X,
+  ZoomIn,
+  LayoutGrid,
+} from "lucide-react";
 import { useState } from "react";
-import ContactPopup from "../../components/ContactPopup";
 
 export default function Premium() {
   const { t } = useTranslation();
@@ -11,6 +19,7 @@ export default function Premium() {
 
   // popup
   const [showPopup, setShowPopup] = useState(false);
+  const [mobileSidebar, setMobileSidebar] = useState(false); // состояние для мобильного сайдбара
 
   const paragraphs = [
     t("repairs.premium.p1"),
@@ -29,6 +38,10 @@ export default function Premium() {
 
   const imagePositions = [0, 2, 4];
 
+  const listItems = t("repairs.premium.list", { returnObjects: true });
+
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
   return (
     <>
       {/* CONTACT POPUP */}
@@ -41,7 +54,24 @@ export default function Premium() {
           <div className="absolute bottom-40 left-20 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl"></div>
         </div>
 
-        {/* Sidebar */}
+        {/* MOBILE SIDEBAR BUTTON */}
+        {isMobile && (
+          <button
+            onClick={() => setMobileSidebar(true)} // Open Sidebar
+            className="fixed top-20 right-4 z-40 w-14 h-14 rounded-2xl flex items-center justify-center bg-white/60 backdrop-blur-xl shadow-xl shadow-blue-200/50 border border-white/40 active:scale-95"
+          >
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#3B82F6]/10 to-[#38BDF8]/10 pointer-events-none" />
+            <LayoutGrid className="w-6 h-6 text-[#3B82F6] relative z-10" />
+          </button>
+        )}
+
+        {/* MOBILE SIDEBAR */}
+        <RepairsSidebarMobile
+          isOpen={mobileSidebar}
+          onClose={() => setMobileSidebar(false)}
+        />
+
+        {/* SIDEBAR DESKTOP */}
         <div className="hidden md:block w-72 px-6">
           <RepairsSidebar />
         </div>
@@ -50,13 +80,13 @@ export default function Premium() {
         <div className="flex-1 px-6 md:px-14 max-w-5xl mx-auto pb-20">
           {/* HEADER */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={isMobile ? false : { opacity: 0, y: 30 }}
+            animate={isMobile ? {} : { opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={isMobile ? false : { opacity: 0, scale: 0.9 }}
+              animate={isMobile ? {} : { opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, duration: 0.5 }}
               className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border-2 border-blue-100 rounded-full mb-6"
             >
@@ -76,8 +106,8 @@ export default function Premium() {
             {paragraphs.map((text, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={isMobile ? false : { opacity: 0, y: 30 }}
+                animate={isMobile ? {} : { opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 + index * 0.1, duration: 0.6 }}
               >
                 <div className="relative">
@@ -90,7 +120,7 @@ export default function Premium() {
                 {imagePositions.includes(index) && (
                   <motion.div
                     className="group relative rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all border-2 border-blue-100 cursor-pointer"
-                    whileHover={{ y: -8, scale: 1.01 }}
+                    whileHover={isMobile ? {} : { y: -8, scale: 1.01 }}
                     transition={{ duration: 0.4 }}
                     onClick={() =>
                       setSelectedImage(images[imagePositions.indexOf(index)])
@@ -99,25 +129,22 @@ export default function Premium() {
                     <img
                       src={images[imagePositions.indexOf(index)]}
                       alt=""
-                      className="w-full h-[450px] object-cover transition-transform duration-700 group-hover:scale-110"
+                      className="w-full h-[450px] object-cover transition-transform duration-700"
                     />
 
-                    {/* overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#3B82F6]/60 via-[#3B82F6]/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                    {/* Убираем синий эффект на мобильной версии */}
+                    {isMobile ? null : (
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#3B82F6]/60 via-[#3B82F6]/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                    )}
 
-                    {/* zoom icon */}
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="w-16 h-16 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-xl">
-                        <ZoomIn className="w-8 h-8 text-[#3B82F6]" />
+                    {/* Для мобильной версии без увеличения */}
+                    {isMobile ? null : (
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="w-16 h-16 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-xl">
+                          <ZoomIn className="w-8 h-8 text-[#3B82F6]" />
+                        </div>
                       </div>
-                    </div>
-
-                    {/* number */}
-                    <div className="absolute top-4 left-4 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg">
-                      <span className="text-[#3B82F6] font-bold text-lg">
-                        {imagePositions.indexOf(index) + 1}
-                      </span>
-                    </div>
+                    )}
                   </motion.div>
                 )}
               </motion.div>
@@ -127,8 +154,8 @@ export default function Premium() {
           {/* LIST */}
           <motion.div
             className="mt-16 p-8 bg-white/80 backdrop-blur-xl rounded-3xl border-2 border-blue-100 shadow-xl"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }} // Убираем анимацию на мобильных устройствах
+            animate={isMobile ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }} // Для мобильных все сразу видимо
             transition={{ delay: 0.8, duration: 0.6 }}
           >
             <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
@@ -137,28 +164,29 @@ export default function Premium() {
             </h3>
 
             <div className="grid md:grid-cols-2 gap-4">
-              {t("repairs.premium.list", { returnObjects: true }).map(
-                (item, i) => (
-                  <motion.div
-                    key={i}
-                    className="flex items-start gap-3 p-3 rounded-xl hover:bg-blue-50 transition-colors"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.9 + i * 0.05 }}
-                  >
-                    <div className="w-2 h-2 bg-gradient-to-r from-[#3B82F6] to-[#38BDF8] rounded-full mt-2 flex-shrink-0"></div>
-                    <span className="text-gray-700 font-medium">{item}</span>
-                  </motion.div>
-                )
-              )}
+              {listItems.map((item, i) => (
+                <motion.div
+                  key={i}
+                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-blue-50 transition-colors"
+                  initial={
+                    isMobile ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }
+                  } // Убираем анимацию для мобильных устройств
+                  animate={
+                    isMobile ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }
+                  } // Для мобильных все сразу видимо
+                  transition={{ delay: 0.9 + i * 0.05 }}
+                >
+                  <div className="w-2 h-2 bg-gradient-to-r from-[#3B82F6] to-[#38BDF8] rounded-full mt-2 flex-shrink-0"></div>
+                  <span className="text-gray-700 font-medium">{item}</span>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
 
-          {/* CTA — Added popup here */}
           <motion.div
             className="mt-12 text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }} // Убираем анимацию на мобильных устройствах
+            animate={isMobile ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }} // Для мобильных все сразу видимо
             transition={{ delay: 1, duration: 0.6 }}
           >
             <motion.button
@@ -174,6 +202,8 @@ export default function Premium() {
               <div className="absolute inset-0 bg-gradient-to-r from-[#2563EB] to-[#0EA5E9] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </motion.button>
           </motion.div>
+
+          {/* CTA — Added popup here */}
         </div>
       </div>
 

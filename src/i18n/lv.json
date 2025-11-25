@@ -21,7 +21,7 @@
     "stats": {
       "experience": "gadu pieredze",
       "projects": "projekti",
-      "satisfaction": "apmierināti klienti"
+      "satisfaction": "objektu īstenošana"
     },
     "googleRating": {
       "basedOn": "balstoties uz atsauksmēm",
@@ -612,7 +612,8 @@
       "electrics": "Elektriskais darbs",
       "openings": "Ailu ierīkošana",
       "demolition": "Demontāžas darbi",
-      "finishing": "Apdares darbi"
+      "finishing": "Apdares darbi",
+      "remonti": "Remonti"
     }
   },
 
@@ -635,7 +636,8 @@
       "interiors": "Telpu dizains",
       "offices": "Biroju dizains",
       "restaurants": "Restorāna dizains",
-      "nightclubs": "Naktsklubu dizains"
+      "nightclubs": "Naktsklubu dizains",
+      "design": "Interjera dizains"
     },
     "home": {
       "title": "Interjera dizains Rīgā",

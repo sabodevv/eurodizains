@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import RepairsSidebar from "../../components/RepairsSidebar";
+import RepairsSidebarMobile from "../../components/RepairsSidebarMobile"; // Мобильная версия бокового меню
 import ContactPopup from "../../components/ContactPopup"; // ✅ added
 import { useTranslation } from "react-i18next";
-import { Zap, Plug, CheckCircle, ArrowRight } from "lucide-react";
+import { Zap, Plug, CheckCircle, ArrowRight, LayoutGrid } from "lucide-react"; // Добавлен LayoutGrid
 import { useState } from "react";
 
 export default function Electrics() {
@@ -10,11 +11,14 @@ export default function Electrics() {
 
   // popup
   const [showPopup, setShowPopup] = useState(false); // ✅ added
+  const [mobileSidebar, setMobileSidebar] = useState(false); // добавлена переменная состояния для мобильного меню
 
   const paragraphs = t("repairs.electrics.text", { returnObjects: true });
   const listItems = t("repairs.electrics.list", { returnObjects: true });
   const rules = t("repairs.electrics.rules", { returnObjects: true });
   const advantages = t("repairs.electrics.advantages", { returnObjects: true });
+
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   return (
     <div className="pt-28 flex relative overflow-hidden">
@@ -24,18 +28,33 @@ export default function Electrics() {
         onClose={() => setShowPopup(false)}
       />{" "}
       {/* ✅ added */}
-      {/* Background decoration */}
+      {/* MOBILE SIDEBAR BUTTON */}
+      {isMobile && (
+        <button
+          onClick={() => setMobileSidebar(true)}
+          className="fixed top-20 right-4 z-40 w-14 h-14 rounded-2xl flex items-center justify-center bg-white/60 backdrop-blur-xl shadow-xl shadow-blue-200/50 border border-white/40 active:scale-95"
+        >
+          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#3B82F6]/10 to-[#38BDF8]/10 pointer-events-none" />
+          <LayoutGrid className="w-6 h-6 text-[#3B82F6] relative z-10" />
+        </button>
+      )}
+      {/* MOBILE SIDEBAR */}
+      <RepairsSidebarMobile
+        isOpen={mobileSidebar}
+        onClose={() => setMobileSidebar(false)}
+      />
+      {/* BACKGROUND DECORATION */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-40 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-40 left-20 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl"></div>
       </div>
-      {/* Sidebar */}
+      {/* SIDEBAR DESKTOP */}
       <div className="hidden md:block w-72 px-6">
         <RepairsSidebar />
       </div>
-      {/* Main content */}
-      <div className="flex-1 px-6 md:px-14 max-w-5xl mx-auto pb-24">
-        {/* Header */}
+      {/* MAIN CONTENT */}
+      <div className="flex-1 px-6 md:px-14 max-w-5xl mx-auto pb-24 relative z-20">
+        {/* HEADER */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -58,13 +77,13 @@ export default function Electrics() {
           </h1>
         </motion.div>
 
-        {/* Text */}
+        {/* TEXT */}
         <div className="space-y-10 mt-12">
           {paragraphs.map((text, index) => (
             <motion.p
               key={index}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={isMobile ? false : { opacity: 0, y: 30 }}
+              animate={isMobile ? {} : { opacity: 1, y: 0 }}
               transition={{ delay: 0.3 + index * 0.1, duration: 0.6 }}
               className="text-lg text-gray-700 leading-relaxed font-medium"
             >
@@ -73,11 +92,11 @@ export default function Electrics() {
           ))}
         </div>
 
-        {/* Work types */}
+        {/* WORK TYPES */}
         <motion.div
           className="mt-16 p-8 bg-white/80 backdrop-blur-xl rounded-3xl border-2 border-blue-100 shadow-xl"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={isMobile ? false : { opacity: 0, y: 30 }}
+          animate={isMobile ? {} : { opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.6 }}
         >
           <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
@@ -97,11 +116,11 @@ export default function Electrics() {
           </ul>
         </motion.div>
 
-        {/* Rules */}
+        {/* RULES */}
         <motion.div
           className="mt-16 p-8 bg-white/80 backdrop-blur-xl rounded-3xl border-2 border-cyan-100 shadow-xl"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={isMobile ? false : { opacity: 0, y: 30 }}
+          animate={isMobile ? {} : { opacity: 1, y: 0 }}
           transition={{ delay: 0.9, duration: 0.6 }}
         >
           <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
@@ -121,11 +140,11 @@ export default function Electrics() {
           </ul>
         </motion.div>
 
-        {/* Advantages */}
+        {/* ADVANTAGES */}
         <motion.div
           className="mt-16 p-8 bg-white/80 backdrop-blur-xl rounded-3xl border-2 border-cyan-100 shadow-xl"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={isMobile ? false : { opacity: 0, y: 30 }}
+          animate={isMobile ? {} : { opacity: 1, y: 0 }}
           transition={{ delay: 1, duration: 0.6 }}
         >
           <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
@@ -148,8 +167,8 @@ export default function Electrics() {
         {/* CTA — OPEN POPUP */}
         <motion.div
           className="mt-12 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={isMobile ? false : { opacity: 0, y: 20 }}
+          animate={isMobile ? {} : { opacity: 1, y: 0 }}
           transition={{ delay: 1.1, duration: 0.6 }}
         >
           <p className="text-gray-600 mb-6">

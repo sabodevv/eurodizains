@@ -117,7 +117,7 @@ export default function Hero({ setCurrentPage }) {
             className="flex flex-wrap justify-center lg:justify-start gap-8 mt-12"
           >
             <div className="text-center lg:text-left">
-              <div className="text-3xl font-bold text-[#3B82F6]">12+</div>
+              <div className="text-3xl font-bold text-[#3B82F6]">17+</div>
               <div className="text-sm text-gray-600 font-medium">
                 {t("hero.stats.experience")}
               </div>

@@ -21,7 +21,7 @@
     "stats": {
       "experience": "лет опыта",
       "projects": "проектов",
-      "satisfaction": "довольных клиентов"
+      "satisfaction": "реализация объектов"
     },
     "googleRating": {
       "basedOn": "на основе отзывов",
@@ -609,7 +609,8 @@
       "electrics": "Электрика",
       "openings": "Проемы",
       "demolition": "Демонтаж",
-      "finishing": "Чистовая отделка"
+      "finishing": "Чистовая отделка",
+      "remonti": "Ремонты"
     }
   },
   "design": {
@@ -631,7 +632,9 @@
       "interiors": "Дизайн помещений",
       "offices": "Дизайн офисов",
       "restaurants": "Дизайн ресторана",
-      "nightclubs": "Дизайн ночного клуба"
+      "nightclubs": "Дизайн ночного клуба",
+
+      "design": "Дизайн интерьера"
     },
     "home": {
       "title": "Дизайн интерьера в Риге",

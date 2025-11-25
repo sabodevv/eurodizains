@@ -81,7 +81,7 @@ export default function DesignSidebarMobile({ isOpen, onClose }) {
                     <Sparkles className="w-6 h-6 text-white" />
                   </div>
                   <h2 className="text-lg font-bold bg-gradient-to-r from-[#3B82F6] to-[#38BDF8] bg-clip-text text-transparent">
-                    Interjera dizains
+                    {t("design.sidebar.design")}
                   </h2>
                 </div>
 
