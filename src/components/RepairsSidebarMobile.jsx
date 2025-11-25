@@ -1,14 +1,12 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Sparkles } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { slugMap } from "../utils/slugMap";
-import { useEffect } from "react";
 
 export default function RepairsSidebarMobile({ isOpen, onClose }) {
   const { t, i18n } = useTranslation();
   const location = useLocation();
-  const navigate = useNavigate();
   const lang = i18n.language;
 
   // Translate base path → slugMap → final ?language=XX link
@@ -47,11 +45,11 @@ export default function RepairsSidebarMobile({ isOpen, onClose }) {
     return slug === location.pathname;
   };
 
-  useEffect(() => {
-    // Update the URL with the current language when the language changes
-    const path = location.pathname.split("?")[0];
-    navigate(`${path}?language=${lang}`);
-  }, [lang, location, navigate]);
+  // ❌ УБРАЛ ЭТОТ useEffect - ОН ВЫЗЫВАЛ БЕСКОНЕЧНЫЙ ЦИКЛ
+  // useEffect(() => {
+  //   const path = location.pathname.split("?")[0];
+  //   navigate(`${path}?language=${lang}`);
+  // }, [lang, location, navigate]);
 
   return (
     <AnimatePresence>
@@ -83,8 +81,7 @@ export default function RepairsSidebarMobile({ isOpen, onClose }) {
                     <Sparkles className="w-6 h-6 text-white" />
                   </div>
                   <h2 className="text-lg font-bold bg-gradient-to-r from-[#3B82F6] to-[#38BDF8] bg-clip-text text-transparent">
-                    {t("repairs.sidebar.remonti")}{" "}
-                    {/* Добавление перевода для "Remonti" */}
+                    {t("repairs.sidebar.remonti")}
                   </h2>
                 </div>
 

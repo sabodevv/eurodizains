@@ -1,13 +1,11 @@
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { slugMap } from "../utils/slugMap";
-import { useEffect } from "react";
 
 export default function RepairsSidebar() {
   const { t, i18n } = useTranslation();
-  const navigate = useNavigate();
   const location = useLocation();
 
   // Преобразует внутренний slug (/repairs/standard) → локализованный URL
@@ -61,9 +59,10 @@ export default function RepairsSidebar() {
     return Object.values(slugMap[baseSlug]).includes(location.pathname);
   };
 
-  useEffect(() => {
-    // Принудительно перерисовываем компонент при изменении языка
-  }, [i18n.language]); // следим за изменением языка
+  // ❌ УДАЛИЛ ПУСТОЙ useEffect - он ничего не делал
+  // useEffect(() => {
+  //   // Принудительно перерисовываем компонент при изменении языка
+  // }, [i18n.language]);
 
   return (
     <motion.aside
