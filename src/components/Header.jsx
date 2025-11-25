@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone, Instagram } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation } from "react-router-dom";
 import ContactPopup from "../components/ContactPopup";
@@ -78,9 +78,8 @@ export default function Header() {
       <motion.header
         className={`
           fixed top-0 left-0 right-0 z-50
-          ${isMobile ? "bg-white/95" : "bg-white/80 backdrop-blur-xl"}
+          ${isMobile ? "bg-white/95 h-16" : "bg-white/80 backdrop-blur-xl h-24"}
           border-b border-blue-100 shadow-sm 
-          h-24
         `}
         animate={{ y: showHeader ? 0 : -140 }}
         transition={{ duration: 0.25 }}
@@ -89,11 +88,14 @@ export default function Header() {
         <img
           src="/logo.png"
           alt="EuroDizains Logo"
-          className="
-            absolute -top-10 left-20 
-            w-[230px] md:w-[260px] 
-            cursor-pointer select-none opacity-95
-          "
+          className={`
+            absolute cursor-pointer select-none opacity-95
+            ${
+              isMobile
+                ? "-top-6 left-4 w-[160px]"
+                : "-top-10 left-20 w-[230px] md:w-[260px]"
+            }
+          `}
           onClick={() => handleRoute("/")}
         />
 
@@ -152,6 +154,26 @@ export default function Header() {
               ))}
             </div>
 
+            {/* INSTAGRAM */}
+            <a
+              href="https://www.instagram.com/eurodizainsm2/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-md text-gray-700 hover:text-[#3B82F6] hover:bg-blue-50 transition"
+            >
+              <Instagram className="w-4 h-4" />
+              <span className="text-sm font-semibold">eurodizainsm2</span>
+            </a>
+
+            {/* PHONE NUMBER */}
+            <a
+              href="tel:+37122469222"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-md text-gray-700 hover:text-[#3B82F6] hover:bg-blue-50 transition"
+            >
+              <Phone className="w-4 h-4" />
+              <span className="text-sm font-semibold">+371 22469222</span>
+            </a>
+
             {/* CALL BUTTON */}
             <button
               onClick={() => setShowPopup(true)}
@@ -169,18 +191,21 @@ export default function Header() {
 
           {/* MOBILE MENU BUTTON */}
           <button
-            className="
-              md:hidden w-11 h-11 flex items-center justify-center 
+            className={`
+              md:hidden flex items-center justify-center 
               bg-blue-50 text-[#3B82F6] rounded-lg shadow-sm
-            "
+              ${isMobile ? "w-9 h-9" : "w-11 h-11"}
+            `}
             onClick={() => setIsOpen(!isOpen)}
           >
-            {isOpen ? <X /> : <Menu />}
+            {isOpen ? (
+              <X className={isMobile ? "w-5 h-5" : "w-6 h-6"} />
+            ) : (
+              <Menu className={isMobile ? "w-5 h-5" : "w-6 h-6"} />
+            )}
           </button>
         </nav>
 
-        {/* MOBILE DROPDOWN MENU */}
-        {/* MOBILE SIDE MENU */}
         {/* MOBILE SIDE MENU */}
         <AnimatePresence>
           {isOpen && (
@@ -268,6 +293,38 @@ export default function Header() {
                           </button>
                         ))}
                       </div>
+                    </div>
+
+                    {/* CONTACT INFO - MOBILE */}
+                    <div className="space-y-3 mb-6">
+                      {/* Instagram */}
+                      <a
+                        href="https://www.instagram.com/eurodizainsm2/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-pink-50 to-purple-50 hover:from-pink-100 hover:to-purple-100 transition"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center">
+                          <Instagram className="w-5 h-5 text-white" />
+                        </div>
+                        <span className="font-semibold text-gray-800">
+                          eurodizainsm2
+                        </span>
+                      </a>
+
+                      {/* Phone */}
+                      <a
+                        href="tel:+37122469222"
+                        className="flex items-center gap-3 p-3 rounded-xl bg-blue-50 hover:bg-blue-100 transition"
+                      >
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#3B82F6] to-[#38BDF8] flex items-center justify-center">
+                          <Phone className="w-5 h-5 text-white" />
+                        </div>
+                        <span className="font-semibold text-gray-800">
+                          +371 22469222
+                        </span>
+                      </a>
                     </div>
                   </div>
 

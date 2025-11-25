@@ -10,6 +10,7 @@ import {
   X,
   ZoomIn,
   Menu,
+  LayoutGrid,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -36,7 +37,7 @@ export default function DesignHome() {
         <motion.button
           onClick={() => setMobileSidebar(true)}
           className="
-      fixed top-20 left-4 z-40
+      fixed top-20 right-4 z-40
       w-14 h-14
       rounded-2xl
       flex items-center justify-center
@@ -52,7 +53,7 @@ export default function DesignHome() {
           {/* Внутренний мягкий свет */}
           <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#3B82F6]/10 to-[#38BDF8]/10 pointer-events-none" />
 
-          <Menu className="w-6 h-6 text-[#3B82F6] drop-shadow-sm relative z-10" />
+          <LayoutGrid className="w-6 h-6 text-[#3B82F6] drop-shadow-sm relative z-10" />
         </motion.button>
       )}
 
